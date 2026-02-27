@@ -1,0 +1,38 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.auth-tabs {
+  padding: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background-color: rgb(243 244 246);
+  border-radius: $radius-lg;
+}
+
+.auth-tabs__tab {
+  border: none;
+  border-radius: $radius-lg;
+  padding: 16px;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+  color: $text-color-muted;
+  transition:
+    background-color $transition-base,
+    border-color $transition-base,
+    color $transition-base;
+
+  &:hover {
+    color: $text-color-primary;
+  }
+
+  &[aria-selected='true'] {
+    background: $color-surface;
+    color: $color-primary;
+    box-shadow: $shadow-sm;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}

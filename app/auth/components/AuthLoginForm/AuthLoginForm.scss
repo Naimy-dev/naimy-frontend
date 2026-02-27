@@ -1,0 +1,157 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.auth-login-form {
+  width: 100%;
+  display: grid;
+  gap: 20px;
+}
+
+.auth-login-form__header {
+  display: grid;
+  gap: 8px;
+}
+
+.auth-login-form__title {
+  margin: 0;
+}
+
+.auth-login-form__subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: $text-color-muted;
+}
+
+.auth-login-form__fields {
+  display: grid;
+  gap: 12px;
+}
+
+.auth-login-form__field {
+  display: grid;
+  gap: 8px;
+}
+
+.auth-login-form__label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.auth-login-form__input-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 2px solid $color-border;
+  border-radius: $radius-xl;
+  background: $color-surface;
+  transition:
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:focus-within {
+    border-color: rgba(37, 99, 235, 0.8);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  }
+}
+
+.auth-login-form__icon {
+  position: absolute;
+  left: 12px;
+  color: #9ca3af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.auth-login-form__icon-button {
+  position: absolute;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  padding: 8px;
+  color: #9ca3af;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: $text-color-muted;
+  }
+}
+
+.auth-login-form__input {
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: $text-color-primary;
+  width: 100%;
+  padding: 12px 44px 12px 44px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.auth-login-form__error {
+  font-size: 12px;
+  color: $color-danger;
+}
+
+.auth-login-form__row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.auth-login-form__link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: $color-primary;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.auth-login-form__submit {
+  border: 0;
+  border-radius: $radius-xl;
+  padding: 16px 16px;
+  background: $color-primary;
+  color: $text-color-on-dark;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: $shadow-lg;
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base,
+    background-color $transition-base;
+
+  &:hover {
+    background: $color-primary-hover;
+    box-shadow: $shadow-2xl;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.auth-login-form__footer {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  color: $text-color-muted;
+}
+
+.auth-login-form__footer-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: $color-primary;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}

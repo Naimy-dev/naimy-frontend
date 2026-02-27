@@ -1,0 +1,18 @@
+@use './_variables.scss' as *;
+@use './normalize.scss';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: $font-family-sans;
+  background: $color-bg;
+  color: $text-color-primary;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

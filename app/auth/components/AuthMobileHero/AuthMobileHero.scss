@@ -1,0 +1,97 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.auth-mobile-hero {
+  padding: 20px 16px;
+  color: $text-color-on-dark;
+  background: linear-gradient(
+    to right bottom,
+    rgb(37, 99, 235),
+    rgb(29, 78, 216),
+    rgb(126, 34, 206)
+  );
+
+  @media (min-width: $bp-lg) {
+    display: none;
+  }
+}
+
+.auth-mobile-hero::before {
+  content: '';
+  position: absolute;
+  inset: -120px -120px auto auto;
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+}
+
+.auth-mobile-hero__inner {
+  display: grid;
+  gap: 16px;
+}
+
+.auth-mobile-hero__logo {
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.auth-mobile-hero__headline {
+  display: grid;
+  gap: 4px;
+}
+
+.auth-mobile-hero__title {
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.auth-mobile-hero__subtitle {
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.auth-mobile-hero__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.auth-mobile-hero__stat {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: $radius-xl;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.auth-mobile-hero__stat-value {
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.auth-mobile-hero__stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.auth-mobile-hero__avatars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-mobile-hero__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  background: rgb(29, 78, 216);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -10px;
+  font-size: 13px;
+  font-weight: 600;
+}

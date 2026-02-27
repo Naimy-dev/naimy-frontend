@@ -1,0 +1,14 @@
+export { default as CloseIcon } from './CloseIcon.vue';
+export { default as LogoutIcon } from './LogoutIcon.vue';
+export { default as BurgerIcon } from './BurgerIcon.vue';
+export { default as BellIcon } from './BellIcon.vue';
+export { default as HeartIcon } from './HeartIcon.vue';
+export { default as MessageIcon } from './MessageIcon.vue';
+export { default as HomeIcon } from './HomeIcon.vue';
+export { default as ListIcon } from './ListIcon.vue';
+export { default as BriefcaseIcon } from './BriefcaseIcon.vue';
+export { default as TableCellsIcon } from './TableCellsIcon.vue';
+export { default as PhoneIcon } from './PhoneIcon.vue';
+export { default as InfoIcon } from './InfoIcon.vue';
+export { default as QuestionIcon } from './QuestionIcon.vue';
+export { default as SettingsIcon } from './SettingsIcon.vue';

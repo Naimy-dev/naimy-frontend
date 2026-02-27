@@ -1,0 +1,16 @@
+@use './_variables.scss' as *;
+
+@mixin container($max: $container-max, $pad: $container-pad-desktop) {
+  width: 100%;
+  max-width: $max;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $pad;
+  padding-right: $pad;
+}
+
+@mixin focus-ring {
+  outline: 2px solid rgba($color-focus-ring, 0.6);
+  outline-offset: 2px;
+}
+

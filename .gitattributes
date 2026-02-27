@@ -1,0 +1,24 @@
+## Line endings / normalization
+# Keep LF in the repository, regardless of OS.
+* text=auto eol=lf
+
+# Lock files should be stable across OS.
+package-lock.json text eol=lf
+pnpm-lock.yaml text eol=lf
+yarn.lock text eol=lf
+
+# Common Windows scripts should remain CRLF in working tree.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.svg binary
+*.pdf binary
+
