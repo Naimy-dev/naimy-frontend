@@ -81,7 +81,9 @@
 
     <div v-if="forgotPasswordStubVisible" role="status">Сброс пароля будет доступен позже.</div>
 
-    <button class="auth-login-form__submit" type="submit">Войти в аккаунт</button>
+    <button class="auth-login-form__submit" type="submit" :disabled="loading">
+      Войти в аккаунт
+    </button>
 
     <div class="auth-login-form__footer">
       <span>Нет аккаунта?</span>
@@ -96,6 +98,7 @@
 import { computed, reactive, ref } from 'vue';
 import { vMaska } from 'maska/vue';
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '~/auth/icons';
+import { useLogin } from '~/auth/composables';
 import type { AuthLoginFormEmits } from './AuthLoginForm.types';
 
 const emit = defineEmits<AuthLoginFormEmits>();
@@ -114,6 +117,8 @@ const touched = reactive({
   phone: false,
   password: false,
 });
+
+const { loading, login } = useLogin();
 
 const normalizedPhone = computed(() => {
   if (!phone.value) {
@@ -151,7 +156,7 @@ const passwordError = computed(() => {
   return '';
 });
 
-function onSubmit() {
+async function onSubmit() {
   touched.phone = true;
   touched.password = true;
 
@@ -159,9 +164,7 @@ function onSubmit() {
     return;
   }
 
-  console.log(normalizedPhone.value);
-  console.log(password.value);
-  // TODO api call
+  await login({ phone: normalizedPhone.value, password: password.value });
 }
 
 function onForgotPassword() {
