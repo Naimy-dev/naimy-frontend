@@ -14,7 +14,7 @@
               v-if="activeTab === AuthTab.LOGIN"
               @request-register="activeTab = AuthTab.REGISTER"
             />
-            <div v-else>Форма регистрации (шаг 5+)</div>
+            <AuthRegisterForm v-else @request-login="activeTab = AuthTab.LOGIN" />
           </section>
         </div>
       </div>
@@ -27,7 +27,13 @@ import { computed } from 'vue';
 import { navigateTo, useRoute } from 'nuxt/app';
 import { definePageMeta } from '#imports';
 import { AuthTab } from '~/auth';
-import { AuthLeftPanel, AuthTabs, AuthMobileHero, AuthLoginForm } from '~/auth/components';
+import {
+  AuthLeftPanel,
+  AuthTabs,
+  AuthMobileHero,
+  AuthLoginForm,
+  AuthRegisterForm,
+} from '~/auth/components';
 
 definePageMeta({
   layout: 'auth',
