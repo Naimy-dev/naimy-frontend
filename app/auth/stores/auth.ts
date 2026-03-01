@@ -21,10 +21,15 @@ export const useAuthStore = defineStore('auth', () => {
     accessToken.value = token;
   }
 
+  function login(token: string, u: UserDto) {
+    accessToken.value = token;
+    user.value = u;
+  }
+
   function clearAuth() {
     accessToken.value = null;
     user.value = null;
   }
 
-  return { accessToken, user, isAuthenticated, setAccessToken, clearAuth, userInitial };
+  return { accessToken, user, isAuthenticated, setAccessToken, login, clearAuth, userInitial };
 });

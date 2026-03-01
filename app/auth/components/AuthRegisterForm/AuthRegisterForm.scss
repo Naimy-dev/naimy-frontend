@@ -6,6 +6,12 @@
   gap: 20px;
 }
 
+.auth-register-form__content {
+  width: 100%;
+  display: grid;
+  gap: 20px;
+}
+
 .auth-register-form__header {
   display: grid;
   gap: 8px;
@@ -89,6 +95,7 @@
   padding: 12px 44px 12px 44px;
   font-size: 14px;
   box-sizing: border-box;
+  border-radius: $radius-xl;
 }
 
 .auth-register-form__hint {
@@ -139,6 +146,7 @@
 }
 
 .auth-register-form__submit {
+  width: 100%;
   border: 0;
   border-radius: $radius-xl;
   padding: 16px 16px;

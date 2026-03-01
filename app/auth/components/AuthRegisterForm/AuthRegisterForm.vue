@@ -1,184 +1,194 @@
 <template>
-  <form class="auth-register-form" @submit.prevent="onSubmit">
-    <header class="auth-register-form__header">
-      <h2 class="auth-register-form__title">Создание аккаунта</h2>
-      <p class="auth-register-form__subtitle">Заполните форму, чтобы продолжить</p>
-    </header>
+  <div class="auth-register-form">
+    <AuthOtpStep
+      v-if="otpStepVisible"
+      :phone="otpPhone"
+      :loading="loading"
+      :resend-loading="resendLoading"
+      :error="otpError"
+      :initial-resend-seconds="60"
+      @submit="submitOtp"
+      @resend="resendOtp"
+      @back="closeOtpModal"
+    />
 
-    <div class="auth-register-form__fields">
-      <div class="auth-register-form__field">
-        <label class="auth-register-form__label" :for="firstNameId">Имя</label>
+    <form v-else class="auth-register-form__content" @submit.prevent="onSubmit">
+      <header class="auth-register-form__header">
+        <h2 class="auth-register-form__title">Создание аккаунта</h2>
+        <p class="auth-register-form__subtitle">Заполните форму, чтобы продолжить</p>
+      </header>
 
-        <div>
-          <div class="auth-register-form__input-shell">
-            <span class="auth-register-form__icon" aria-hidden="true">
-              <UserIcon />
-            </span>
+      <div class="auth-register-form__fields">
+        <div class="auth-register-form__field">
+          <label class="auth-register-form__label" :for="firstNameId">Имя</label>
 
-            <input
-              :id="firstNameId"
-              v-model.trim="firstName"
-              class="auth-register-form__input"
-              type="text"
-              autocomplete="given-name"
-              placeholder="Введите имя"
-              @input="onFieldInput(AuthRegisterFormField.FIRST_NAME)"
-              @blur="touched.firstName = true"
-            />
+          <div>
+            <div class="auth-register-form__input-shell">
+              <span class="auth-register-form__icon" aria-hidden="true">
+                <UserIcon />
+              </span>
+
+              <input
+                :id="firstNameId"
+                v-model.trim="firstName"
+                class="auth-register-form__input"
+                type="text"
+                autocomplete="given-name"
+                placeholder="Введите имя"
+                @input="onFieldInput(AuthRegisterFormField.FIRST_NAME)"
+                @blur="touched.firstName = true"
+              />
+            </div>
+
+            <div v-if="firstNameError" class="auth-register-form__error" role="alert">
+              {{ firstNameError }}
+            </div>
           </div>
+        </div>
 
-          <div v-if="firstNameError" class="auth-register-form__error" role="alert">
-            {{ firstNameError }}
+        <div class="auth-register-form__field">
+          <label class="auth-register-form__label" :for="lastNameId">Фамилия</label>
+
+          <div>
+            <div class="auth-register-form__input-shell">
+              <span class="auth-register-form__icon" aria-hidden="true">
+                <UserIcon />
+              </span>
+
+              <input
+                :id="lastNameId"
+                v-model.trim="lastName"
+                class="auth-register-form__input"
+                type="text"
+                autocomplete="family-name"
+                placeholder="Введите фамилию"
+                @input="onFieldInput(AuthRegisterFormField.LAST_NAME)"
+                @blur="touched.lastName = true"
+              />
+            </div>
+
+            <div v-if="lastNameError" class="auth-register-form__error" role="alert">
+              {{ lastNameError }}
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-register-form__field">
+          <label class="auth-register-form__label" :for="phoneId">Номер телефона</label>
+
+          <div>
+            <div class="auth-register-form__input-shell">
+              <span class="auth-register-form__icon" aria-hidden="true">
+                <UserIcon />
+              </span>
+
+              <input
+                :id="phoneId"
+                v-model="maskedPhone"
+                v-maska="phoneMask"
+                class="auth-register-form__input"
+                type="tel"
+                inputmode="numeric"
+                autocomplete="tel"
+                placeholder="+375 (XX) XXX-XX-XX"
+                @input="onFieldInput(AuthRegisterFormField.PHONE)"
+                @blur="touched.phone = true"
+              />
+            </div>
+
+            <div v-if="phoneError" class="auth-register-form__error" role="alert">
+              {{ phoneError }}
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-register-form__field">
+          <label class="auth-register-form__label" :for="passwordId">Пароль</label>
+
+          <div>
+            <div class="auth-register-form__input-shell">
+              <span class="auth-register-form__icon" aria-hidden="true">
+                <LockIcon />
+              </span>
+
+              <input
+                :id="passwordId"
+                v-model="password"
+                class="auth-register-form__input"
+                :type="passwordVisible ? 'text' : 'password'"
+                autocomplete="new-password"
+                placeholder="Введите пароль"
+                @input="onFieldInput(AuthRegisterFormField.PASSWORD)"
+                @blur="touched.password = true"
+              />
+
+              <button
+                class="auth-register-form__icon-button"
+                type="button"
+                :aria-label="passwordVisible ? 'Скрыть пароль' : 'Показать пароль'"
+                @click="passwordVisible = !passwordVisible"
+              >
+                <EyeOffIcon v-if="passwordVisible" />
+                <EyeIcon v-else />
+              </button>
+            </div>
+
+            <p class="auth-register-form__hint">Минимум 8 символов</p>
+
+            <div v-if="passwordError" class="auth-register-form__error" role="alert">
+              {{ passwordError }}
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="auth-register-form__field">
-        <label class="auth-register-form__label" :for="lastNameId">Фамилия</label>
+      <div class="auth-register-form__checks">
+        <label class="auth-register-form__checkbox">
+          <input
+            v-model="consentAccepted"
+            class="auth-register-form__checkbox-input"
+            type="checkbox"
+            @change="touched.consent = false"
+          />
 
-        <div>
-          <div class="auth-register-form__input-shell">
-            <span class="auth-register-form__icon" aria-hidden="true">
-              <UserIcon />
-            </span>
+          <span class="auth-register-form__checkbox-text">
+            Я согласен с
+            <NuxtLink class="auth-register-form__checkbox-link" to="/terms">
+              условиями использования
+            </NuxtLink>
+            и
+            <NuxtLink class="auth-register-form__checkbox-link" to="/privacy">
+              политикой конфиденциальности
+            </NuxtLink>
+          </span>
+        </label>
 
-            <input
-              :id="lastNameId"
-              v-model.trim="lastName"
-              class="auth-register-form__input"
-              type="text"
-              autocomplete="family-name"
-              placeholder="Введите фамилию"
-              @input="onFieldInput(AuthRegisterFormField.LAST_NAME)"
-              @blur="touched.lastName = true"
-            />
-          </div>
-
-          <div v-if="lastNameError" class="auth-register-form__error" role="alert">
-            {{ lastNameError }}
-          </div>
+        <div v-if="consentError" class="auth-register-form__error" role="alert">
+          {{ consentError }}
         </div>
+
+        <label class="auth-register-form__checkbox">
+          <input
+            v-model="marketingAccepted"
+            class="auth-register-form__checkbox-input"
+            type="checkbox"
+          />
+          <span class="auth-register-form__checkbox-text">Получать новости и предложения</span>
+        </label>
       </div>
 
-      <div class="auth-register-form__field">
-        <label class="auth-register-form__label" :for="phoneId">Номер телефона</label>
-
-        <div>
-          <div class="auth-register-form__input-shell">
-            <span class="auth-register-form__icon" aria-hidden="true">
-              <UserIcon />
-            </span>
-
-            <input
-              :id="phoneId"
-              v-model="maskedPhone"
-              v-maska="phoneMask"
-              class="auth-register-form__input"
-              type="tel"
-              inputmode="numeric"
-              autocomplete="tel"
-              placeholder="+375 (XX) XXX-XX-XX"
-              @input="onFieldInput(AuthRegisterFormField.PHONE)"
-              @blur="touched.phone = true"
-            />
-          </div>
-
-          <div v-if="phoneError" class="auth-register-form__error" role="alert">
-            {{ phoneError }}
-          </div>
-        </div>
-      </div>
-
-      <div class="auth-register-form__field">
-        <label class="auth-register-form__label" :for="passwordId">Пароль</label>
-
-        <div>
-          <div class="auth-register-form__input-shell">
-            <span class="auth-register-form__icon" aria-hidden="true">
-              <LockIcon />
-            </span>
-
-            <input
-              :id="passwordId"
-              v-model="password"
-              class="auth-register-form__input"
-              :type="passwordVisible ? 'text' : 'password'"
-              autocomplete="new-password"
-              placeholder="Введите пароль"
-              @input="onFieldInput(AuthRegisterFormField.PASSWORD)"
-              @blur="touched.password = true"
-            />
-
-            <button
-              class="auth-register-form__icon-button"
-              type="button"
-              :aria-label="passwordVisible ? 'Скрыть пароль' : 'Показать пароль'"
-              @click="passwordVisible = !passwordVisible"
-            >
-              <EyeOffIcon v-if="passwordVisible" />
-              <EyeIcon v-else />
-            </button>
-          </div>
-
-          <p class="auth-register-form__hint">Минимум 8 символов</p>
-
-          <div v-if="passwordError" class="auth-register-form__error" role="alert">
-            {{ passwordError }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="auth-register-form__checks">
-      <label class="auth-register-form__checkbox">
-        <input
-          v-model="consentAccepted"
-          class="auth-register-form__checkbox-input"
-          type="checkbox"
-          @change="touched.consent = false"
-        />
-
-        <span class="auth-register-form__checkbox-text">
-          Я согласен с
-          <NuxtLink class="auth-register-form__checkbox-link" to="/terms">
-            условиями использования
-          </NuxtLink>
-          и
-          <NuxtLink class="auth-register-form__checkbox-link" to="/privacy">
-            политикой конфиденциальности
-          </NuxtLink>
-        </span>
-      </label>
-
-      <div v-if="consentError" class="auth-register-form__error" role="alert">
-        {{ consentError }}
-      </div>
-
-      <label class="auth-register-form__checkbox">
-        <input
-          v-model="marketingAccepted"
-          class="auth-register-form__checkbox-input"
-          type="checkbox"
-        />
-        <span class="auth-register-form__checkbox-text">Получать новости и предложения</span>
-      </label>
-    </div>
-
-    <div v-if="successMessage" class="auth-register-form__success" role="status">
-      {{ successMessage }}
-    </div>
-
-    <button class="auth-register-form__submit" type="submit" :disabled="loading">
-      {{ loading ? 'Отправка...' : 'Создать аккаунт' }}
-    </button>
-
-    <div class="auth-register-form__footer">
-      <span>Уже есть аккаунт?</span>
-      <button class="auth-register-form__footer-link" type="button" @click="emit('requestLogin')">
-        Войдите
+      <button class="auth-register-form__submit" type="submit" :disabled="loading">
+        Создать аккаунт
       </button>
-    </div>
-  </form>
+
+      <div class="auth-register-form__footer">
+        <span>Уже есть аккаунт?</span>
+        <button class="auth-register-form__footer-link" type="button" @click="emit('requestLogin')">
+          Войдите
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -186,6 +196,7 @@ import { computed, reactive, ref } from 'vue';
 import { vMaska } from 'maska/vue';
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '~/auth/icons';
 import { useRegister } from '~/auth/composables';
+import AuthOtpStep from '../AuthOtpStep';
 import type { AuthRegisterFormEmits } from './AuthRegisterForm.types';
 import { AuthRegisterFormField } from './AuthRegisterForm.enums';
 
@@ -204,7 +215,10 @@ const password = ref('');
 const consentAccepted = ref(false);
 const marketingAccepted = ref(false);
 const passwordVisible = ref(false);
-const successMessage = ref('');
+
+const otpStepVisible = ref(false);
+const otpPhone = ref('');
+const otpError = ref('');
 
 const touched = reactive({
   firstName: false,
@@ -214,7 +228,7 @@ const touched = reactive({
   consent: false,
 });
 
-const { registerStart, loading } = useRegister();
+const { registerStart, registerConfirm, resendRegisterOtp, loading, resendLoading } = useRegister();
 
 const phoneDigits = computed(() => maskedPhone.value.replace(/\D/g, ''));
 
@@ -334,14 +348,49 @@ async function onSubmit() {
       lastName: lastName.value,
       password: password.value,
     });
+
+    otpPhone.value = normalizedPhone.value;
+    otpError.value = '';
+    otpStepVisible.value = true;
+    emit('registerStarted', normalizedPhone.value);
   } catch (error) {
-    // TODO integrate toast message
+    // TODO: интегрировать toast-слой проекта.
     console.error(error);
     return;
   }
+}
 
-  successMessage.value = 'Код подтверждения отправлен в SMS.';
-  emit('registerStarted', normalizedPhone.value);
+async function submitOtp(code: string) {
+  otpError.value = '';
+
+  try {
+    await registerConfirm({
+      phone: otpPhone.value,
+      code,
+    });
+  } catch (error) {
+    otpError.value = error instanceof Error ? error.message : 'Ошибка подтверждения кода';
+  }
+}
+
+async function resendOtp() {
+  otpError.value = '';
+
+  try {
+    await resendRegisterOtp({
+      phone: otpPhone.value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      password: password.value,
+    });
+  } catch (error) {
+    otpError.value = error instanceof Error ? error.message : 'Не удалось отправить код повторно';
+  }
+}
+
+function closeOtpModal() {
+  otpStepVisible.value = false;
+  otpError.value = '';
 }
 </script>
 
