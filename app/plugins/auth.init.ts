@@ -13,7 +13,7 @@ export default defineNuxtPlugin(async () => {
 
   try {
     const { accessToken, user } = await $fetch<ApiRefreshTokenResponse>('/auth/refresh', {
-      baseURL: config.public.apiBase,
+      baseURL: config.public.apiBaseUrl,
       method: 'POST',
       credentials: 'include',
     });
