@@ -2,9 +2,11 @@
 
 .toast-provider {
   position: fixed;
-  top: calc($header-height-mobile + 16px);
-  right: 16px;
+  top: max(calc($header-height-mobile + 16px), calc(env(safe-area-inset-top) + 16px));
   left: 16px;
+  right: 16px;
+  width: min(384px, calc(100vw - 32px));
+  margin-inline: auto;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -12,9 +14,9 @@
   pointer-events: none;
 
   @media (min-width: $bp-lg) {
-    top: calc($header-height-desktop + 16px);
+    top: max(calc($header-height-desktop + 16px), calc(env(safe-area-inset-top) + 16px));
+    left: 32px;
     right: 32px;
-    left: auto;
     width: min(384px, calc(100vw - 64px));
   }
 }
