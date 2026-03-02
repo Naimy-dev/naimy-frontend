@@ -1,58 +1,48 @@
 @use '~/assets/styles/_variables.scss' as *;
 
-.auth-login-form {
+.auth-register-form {
   width: 100%;
   display: grid;
   gap: 20px;
 }
 
-.auth-login-form__content {
+.auth-register-form__content {
   width: 100%;
   display: grid;
   gap: 20px;
 }
 
-.auth-login-form__header {
+.auth-register-form__header {
   display: grid;
   gap: 8px;
 }
 
-.auth-login-form__title {
+.auth-register-form__title {
   margin: 0;
 }
 
-.auth-login-form__subtitle {
+.auth-register-form__subtitle {
   margin: 0;
   font-size: 13px;
   color: $text-color-muted;
 }
 
-.auth-login-form__success {
-  margin: 0;
-  border: 1px solid rgba($color-success, 0.28);
-  background: $color-success-soft;
-  color: $color-success;
-  border-radius: $radius-lg;
-  padding: 12px 16px;
-  font-size: 13px;
-}
-
-.auth-login-form__fields {
+.auth-register-form__fields {
   display: grid;
   gap: 12px;
 }
 
-.auth-login-form__field {
+.auth-register-form__field {
   display: grid;
   gap: 8px;
 }
 
-.auth-login-form__label {
+.auth-register-form__label {
   font-size: 13px;
   font-weight: 600;
 }
 
-.auth-login-form__input-shell {
+.auth-register-form__input-shell {
   position: relative;
   display: flex;
   align-items: center;
@@ -69,7 +59,7 @@
   }
 }
 
-.auth-login-form__icon {
+.auth-register-form__icon {
   position: absolute;
   left: 12px;
   color: #9ca3af;
@@ -79,7 +69,7 @@
   pointer-events: none;
 }
 
-.auth-login-form__icon-button {
+.auth-register-form__icon-button {
   position: absolute;
   right: 12px;
   border: 0;
@@ -96,7 +86,7 @@
   }
 }
 
-.auth-login-form__input {
+.auth-register-form__input {
   border: 0;
   outline: none;
   background: transparent;
@@ -108,28 +98,54 @@
   border-radius: $radius-xl;
 }
 
-.auth-login-form__error {
+.auth-register-form__hint {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: $text-color-muted;
+}
+
+.auth-register-form__checks {
+  display: grid;
+  gap: 8px;
+}
+
+.auth-register-form__checkbox {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.auth-register-form__checkbox-input {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  accent-color: $color-primary;
+  flex-shrink: 0;
+}
+
+.auth-register-form__checkbox-text {
+  font-size: 13px;
+  line-height: 1.4;
+  color: $text-color-muted;
+}
+
+.auth-register-form__checkbox-link {
+  color: $color-primary;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.auth-register-form__error {
   font-size: 12px;
   color: $color-danger;
 }
 
-.auth-login-form__row {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.auth-login-form__link {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  color: $color-primary;
-  font-weight: 600;
+.auth-register-form__success {
   font-size: 13px;
-  cursor: pointer;
-  text-decoration: underline;
+  color: $color-success;
 }
 
-.auth-login-form__submit {
+.auth-register-form__submit {
   width: 100%;
   border: 0;
   border-radius: $radius-xl;
@@ -155,7 +171,7 @@
   }
 }
 
-.auth-login-form__footer {
+.auth-register-form__footer {
   display: flex;
   gap: 8px;
   justify-content: center;
@@ -164,7 +180,7 @@
   color: $text-color-muted;
 }
 
-.auth-login-form__footer-link {
+.auth-register-form__footer-link {
   background: transparent;
   border: 0;
   padding: 0;

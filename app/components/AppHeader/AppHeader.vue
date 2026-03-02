@@ -64,7 +64,10 @@
           </button>
         </div>
 
-        <NuxtLink class="app-header__btn app-header__btn--login" :to="`/auth?tab=${AuthTab.LOGIN}`"
+        <NuxtLink
+          v-else
+          class="app-header__btn app-header__btn--login"
+          :to="`/auth?tab=${AuthTab.LOGIN}`"
           >Войти</NuxtLink
         >
       </div>

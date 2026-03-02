@@ -22,7 +22,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBase: 'https://api.naimy.by',
+      apiBaseUrl: 'https://api.naimy.by',
     },
   },
 
