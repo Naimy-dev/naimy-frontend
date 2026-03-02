@@ -27,8 +27,8 @@
         />
       </div>
 
-      <p v-if="displayError" class="auth-otp-step__error" role="alert">
-        {{ displayError }}
+      <p v-if="validationError" class="auth-otp-step__error" role="alert">
+        {{ validationError }}
       </p>
 
       <button class="auth-otp-step__submit" type="submit" :disabled="loading">Подтвердить</button>
@@ -75,7 +75,6 @@ const timerId = ref<ReturnType<typeof setInterval> | null>(null);
 
 const code = computed(() => digits.value.join(''));
 const canResend = computed(() => remainingSeconds.value === 0);
-const displayError = computed(() => props.error || validationError.value);
 const formattedPhone = computed(() => getFormattedPhone(props.phone));
 
 watch(code, () => {

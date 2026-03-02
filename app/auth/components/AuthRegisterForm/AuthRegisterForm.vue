@@ -5,7 +5,6 @@
       :phone="otpPhone"
       :loading="loading"
       :resend-loading="resendLoading"
-      :error="otpError"
       :initial-resend-seconds="60"
       @submit="submitOtp"
       @resend="resendOtp"
@@ -192,7 +191,6 @@ const passwordVisible = ref(false);
 
 const otpStepVisible = ref(false);
 const otpPhone = ref('');
-const otpError = ref('');
 
 const touched = reactive({
   firstName: false,
@@ -280,56 +278,36 @@ async function onSubmit() {
     return;
   }
 
-  try {
-    await registerStart({
-      phone: normalizedPhone.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      password: password.value,
-    });
+  await registerStart({
+    phone: normalizedPhone.value,
+    firstName: firstName.value,
+    lastName: lastName.value,
+    password: password.value,
+  });
 
-    otpPhone.value = normalizedPhone.value;
-    otpError.value = '';
-    otpStepVisible.value = true;
-    emit('registerStarted', normalizedPhone.value);
-  } catch (error) {
-    // TODO: интегрировать toast-слой проекта.
-    console.error(error);
-    return;
-  }
+  otpPhone.value = normalizedPhone.value;
+  otpStepVisible.value = true;
+  emit('registerStarted', normalizedPhone.value);
 }
 
 async function submitOtp(code: string) {
-  otpError.value = '';
-
-  try {
-    await registerConfirm({
-      phone: otpPhone.value,
-      code,
-    });
-  } catch (error) {
-    otpError.value = error instanceof Error ? error.message : 'Ошибка подтверждения кода';
-  }
+  await registerConfirm({
+    phone: otpPhone.value,
+    code,
+  });
 }
 
 async function resendOtp() {
-  otpError.value = '';
-
-  try {
-    await resendRegisterOtp({
-      phone: otpPhone.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      password: password.value,
-    });
-  } catch (error) {
-    otpError.value = error instanceof Error ? error.message : 'Не удалось отправить код повторно';
-  }
+  await resendRegisterOtp({
+    phone: otpPhone.value,
+    firstName: firstName.value,
+    lastName: lastName.value,
+    password: password.value,
+  });
 }
 
 function closeOtpModal() {
   otpStepVisible.value = false;
-  otpError.value = '';
 }
 </script>
 

@@ -23,11 +23,10 @@
       :phone="flowPhone"
       :loading="loading"
       :resend-loading="resendLoading"
-      :error="apiError"
       :initial-resend-seconds="initialResendSeconds"
       @submit="submitOtpStep"
       @resend="resendCode"
-      @back="goToPhoneStep"
+      @back="setStep(1)"
     />
 
     <form v-else class="auth-password-reset-flow__form" @submit.prevent="submitPasswordStep">
@@ -105,8 +104,6 @@
         </p>
       </div>
 
-      <p v-if="apiError" class="auth-password-reset-flow__error" role="alert">{{ apiError }}</p>
-
       <button class="auth-password-reset-flow__submit" type="submit" :disabled="loading">
         Сохранить новый пароль
       </button>
@@ -145,8 +142,6 @@ const touchedPassword = ref(false);
 const touchedConfirmPassword = ref(false);
 const passwordVisible = ref(false);
 const confirmPasswordVisible = ref(false);
-
-const apiError = ref('');
 
 const {
   step,
@@ -209,47 +204,24 @@ const confirmPasswordError = computed(() => {
   return '';
 });
 
-watch(step, () => {
-  apiError.value = '';
-});
-
 async function submitPhoneStep() {
   if (!phoneInputRef.value?.validate()) {
     return;
   }
 
-  apiError.value = '';
-
-  try {
-    await resetStart({ phone: normalizedPhone.value });
-    flowPhone.value = normalizedPhone.value;
-  } catch (error) {
-    // TODO: интегрировать toast-слой проекта.
-    apiError.value = error instanceof Error ? error.message : 'Не удалось отправить код';
-  }
+  await resetStart({ phone: normalizedPhone.value });
+  flowPhone.value = normalizedPhone.value;
 }
 
 async function submitOtpStep(code: string) {
-  apiError.value = '';
-
-  try {
-    await resetVerify({
-      phone: flowPhone.value,
-      code,
-    });
-  } catch (error) {
-    apiError.value = error instanceof Error ? error.message : 'Не удалось проверить код';
-  }
+  await resetVerify({
+    phone: flowPhone.value,
+    code,
+  });
 }
 
 async function resendCode() {
-  apiError.value = '';
-
-  try {
-    await resendResetOtp({ phone: flowPhone.value });
-  } catch (error) {
-    apiError.value = error instanceof Error ? error.message : 'Не удалось отправить код повторно';
-  }
+  await resendResetOtp({ phone: flowPhone.value });
 }
 
 async function submitPasswordStep() {
@@ -260,24 +232,13 @@ async function submitPasswordStep() {
     return;
   }
 
-  apiError.value = '';
+  await resetConfirm({
+    phone: flowPhone.value,
+    newPassword: newPassword.value,
+  });
 
-  try {
-    await resetConfirm({
-      phone: flowPhone.value,
-      newPassword: newPassword.value,
-    });
-
-    emit('completed');
-    await navigateTo(`/auth?tab=${AuthTab.LOGIN}`);
-  } catch (error) {
-    apiError.value = error instanceof Error ? error.message : 'Не удалось обновить пароль';
-  }
-}
-
-function goToPhoneStep() {
-  setStep(1);
-  apiError.value = '';
+  emit('completed');
+  await navigateTo(`/auth?tab=${AuthTab.LOGIN}`);
 }
 </script>
 
