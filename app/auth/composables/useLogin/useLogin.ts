@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import { FetchError } from 'ofetch';
 import { navigateTo, useNuxtApp } from 'nuxt/app';
 import { useAuthStore } from '~/auth/stores';
+import { useToast } from '~/composables/useToast';
 import type { AuthSuccessResponse, LoginPayload } from './useLogin.types';
 
 export function useLogin() {
@@ -9,6 +10,7 @@ export function useLogin() {
 
   const api = useNuxtApp().$api;
   const authStore = useAuthStore();
+  const toast = useToast();
 
   async function login(payload: LoginPayload) {
     loading.value = true;
@@ -22,19 +24,24 @@ export function useLogin() {
       authStore.login(accessToken, user);
       await navigateTo('/');
     } catch (error) {
+      let message = 'Не удалось войти. Попробуйте позже.';
+
       if (error instanceof FetchError) {
         const status = error.response?.status;
 
         if (status === 401) {
-          throw new Error('Неверный телефон или пароль');
+          message = 'Неверный телефон или пароль';
         }
 
         if (status === 429) {
-          throw new Error('Слишком много попыток. Попробуйте позже.');
+          message = 'Слишком много попыток. Попробуйте позже.';
         }
       }
 
-      throw new Error('Не удалось войти. Попробуйте позже.');
+      toast.error({
+        title: 'Ошибка входа',
+        description: message,
+      });
     } finally {
       loading.value = false;
     }

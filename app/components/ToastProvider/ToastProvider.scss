@@ -1,0 +1,131 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.toast-provider {
+  position: fixed;
+  top: calc($header-height-mobile + 16px);
+  right: 16px;
+  left: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+
+  @media (min-width: $bp-lg) {
+    top: calc($header-height-desktop + 16px);
+    right: 32px;
+    left: auto;
+    width: min(384px, calc(100vw - 64px));
+  }
+}
+
+.toast-provider__item {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-left: 4px solid transparent;
+  border-radius: $radius-lg;
+  background-color: $color-surface;
+  box-shadow: $shadow-lg;
+}
+
+.toast-provider__icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toast-provider__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-provider__title {
+  margin: 0 0 2px;
+  font-size: 14px;
+  font-weight: 700;
+  color: $text-color-primary;
+}
+
+.toast-provider__description {
+  margin: 0;
+  font-size: 12px;
+  color: $text-color-muted;
+}
+
+.toast-provider__close {
+  flex-shrink: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: $text-color-subtle;
+  cursor: pointer;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $text-color-primary;
+  }
+}
+
+.toast-provider__item--success {
+  border-left-color: $color-success;
+}
+
+.toast-provider__icon--success {
+  background-color: $color-success-soft;
+  color: $color-success;
+}
+
+.toast-provider__item--info {
+  border-left-color: $color-primary;
+}
+
+.toast-provider__icon--info {
+  background-color: $color-primary-soft;
+  color: $color-primary;
+}
+
+.toast-provider__item--warning {
+  border-left-color: $color-warning;
+}
+
+.toast-provider__icon--warning {
+  background-color: #fef9c3;
+  color: #ca8a04;
+}
+
+.toast-provider__item--error {
+  border-left-color: $color-danger;
+}
+
+.toast-provider__icon--error {
+  background-color: $color-danger-soft;
+  color: $color-danger;
+}
+
+.toast-provider__item--neutral {
+  border-left-color: $color-border-strong;
+}
+
+.toast-provider__icon--neutral {
+  background-color: $color-border;
+  color: $text-color-muted;
+}
+
+.toast-list-enter-active,
+.toast-list-leave-active {
+  transition: all 200ms ease;
+}
+
+.toast-list-enter-from,
+.toast-list-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}

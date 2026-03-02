@@ -3,7 +3,6 @@ export type AuthOtpStepProps = {
   loading: boolean;
   resendLoading: boolean;
   initialResendSeconds: number;
-  error: string;
 };
 
 export type AuthOtpStepEmits = {

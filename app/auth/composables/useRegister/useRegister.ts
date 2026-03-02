@@ -2,6 +2,7 @@ import { ref } from 'vue';
 import { FetchError } from 'ofetch';
 import { navigateTo, useNuxtApp } from 'nuxt/app';
 import { useAuthStore } from '~/auth/stores';
+import { useToast } from '~/composables/useToast';
 import type {
   AuthSuccessResponse,
   RegisterConfirmPayload,
@@ -14,6 +15,7 @@ export function useRegister() {
 
   const api = useNuxtApp().$api as typeof $fetch;
   const authStore = useAuthStore();
+  const toast = useToast();
 
   async function registerStart(payload: RegisterStartPayload) {
     loading.value = true;
@@ -30,19 +32,24 @@ export function useRegister() {
         },
       });
     } catch (error) {
+      let message = 'Не удалось создать аккаунт. Попробуйте позже.';
+
       if (error instanceof FetchError) {
         const status = error.response?.status;
 
         if (status === 409) {
-          throw new Error('Пользователь уже существует');
+          message = 'Пользователь уже существует';
         }
 
         if (status === 429) {
-          throw new Error('Превышен лимит SMS');
+          message = 'Превышен лимит SMS';
         }
       }
 
-      throw new Error('Не удалось создать аккаунт. Попробуйте позже.');
+      toast.error({
+        title: 'Ошибка регистрации',
+        description: message,
+      });
     } finally {
       loading.value = false;
     }
@@ -59,19 +66,24 @@ export function useRegister() {
       authStore.login(accessToken, user);
       await navigateTo('/');
     } catch (error) {
+      let message = 'Не удалось подтвердить код. Попробуйте позже.';
+
       if (error instanceof FetchError) {
         const status = error.response?.status;
 
         if (status === 400) {
-          throw new Error('Неверный или устаревший код');
+          message = 'Неверный или устаревший код';
         }
 
         if (status === 429) {
-          throw new Error('Превышено число попыток');
+          message = 'Превышено число попыток';
         }
       }
 
-      throw new Error('Не удалось подтвердить код. Попробуйте позже.');
+      toast.error({
+        title: 'Ошибка подтверждения регистрации',
+        description: message,
+      });
     } finally {
       loading.value = false;
     }

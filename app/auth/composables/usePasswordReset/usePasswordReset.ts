@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { FetchError } from 'ofetch';
 import { useNuxtApp } from 'nuxt/app';
+import { useToast } from '~/composables/useToast';
 import type {
   PasswordResetConfirmPayload,
   PasswordResetStartPayload,
@@ -14,6 +15,7 @@ export function usePasswordReset() {
   const step = ref<PasswordResetStep>(1);
 
   const api = useNuxtApp().$api;
+  const toast = useToast();
 
   function setStep(nextStep: PasswordResetStep) {
     step.value = nextStep;
@@ -30,19 +32,24 @@ export function usePasswordReset() {
 
       setStep(2);
     } catch (error) {
+      let message = 'Не удалось отправить код. Попробуйте позже.';
+
       if (error instanceof FetchError) {
         const status = error.response?.status;
 
         if (status === 400) {
-          throw new Error('Пользователь с таким номером не найден');
+          message = 'Пользователь с таким номером не найден';
         }
 
         if (status === 429) {
-          throw new Error('Превышен лимит SMS. Попробуйте позже');
+          message = 'Превышен лимит SMS. Попробуйте позже';
         }
       }
 
-      throw new Error('Не удалось отправить код. Попробуйте позже.');
+      toast.error({
+        title: 'Ошибка сброса пароля',
+        description: message,
+      });
     } finally {
       loading.value = false;
     }
@@ -59,19 +66,24 @@ export function usePasswordReset() {
 
       setStep(3);
     } catch (error) {
+      let message = 'Не удалось проверить код. Попробуйте позже.';
+
       if (error instanceof FetchError) {
         const status = error.response?.status;
 
         if (status === 400) {
-          throw new Error('Неверный или устаревший код');
+          message = 'Неверный или устаревший код';
         }
 
         if (status === 429) {
-          throw new Error('Превышено число попыток');
+          message = 'Превышено число попыток';
         }
       }
 
-      throw new Error('Не удалось проверить код. Попробуйте позже.');
+      toast.error({
+        title: 'Ошибка подтверждения кода',
+        description: message,
+      });
     } finally {
       loading.value = false;
     }
@@ -86,15 +98,20 @@ export function usePasswordReset() {
         body: payload,
       });
     } catch (error) {
+      let message = 'Не удалось обновить пароль. Попробуйте позже.';
+
       if (error instanceof FetchError) {
         const status = error.response?.status;
 
         if (status === 400) {
-          throw new Error('Сброс не подтверждён или пользователь не найден');
+          message = 'Сброс не подтверждён или пользователь не найден';
         }
       }
 
-      throw new Error('Не удалось обновить пароль. Попробуйте позже.');
+      toast.error({
+        title: 'Ошибка обновления пароля',
+        description: message,
+      });
     } finally {
       loading.value = false;
     }
