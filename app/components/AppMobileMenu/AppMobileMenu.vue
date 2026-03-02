@@ -234,7 +234,12 @@
           </div>
 
           <footer v-if="isAuthenticated" class="mobile-menu__footer">
-            <button class="mobile-menu__logout" type="button" @click="logout">
+            <button
+              class="mobile-menu__logout"
+              type="button"
+              :disabled="logoutLoading"
+              @click="handleLogout"
+            >
               <span class="mobile-menu__logout-icon">
                 <LogoutIcon />
               </span>
@@ -248,9 +253,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { AuthTab, useAuthStore } from '~/auth';
+import { AuthTab, useAuthStore, useLogout } from '~/auth';
 import {
   CloseIcon,
   LogoutIcon,
@@ -271,7 +276,8 @@ const isOpen = defineModel<boolean>();
 
 const authStore = useAuthStore();
 const { isAuthenticated, user, userInitial } = storeToRefs(authStore);
-const { clearAuth } = authStore;
+
+const { logout, loading: logoutLoading } = useLogout();
 
 const language = ref('Русский');
 
@@ -279,9 +285,9 @@ function close() {
   isOpen.value = false;
 }
 
-function logout() {
-  clearAuth();
+async function handleLogout() {
   close();
+  await logout();
 }
 </script>
 
