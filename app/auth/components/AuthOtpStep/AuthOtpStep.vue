@@ -60,8 +60,9 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
+import { getFormattedPhone } from '~/auth/utils';
 import type { AuthOtpStepEmits, AuthOtpStepProps } from './AuthOtpStep.types';
-import { otpLength, getFormattedPhone } from './AuthOtpStep.config';
+import { otpLength } from './AuthOtpStep.config';
 
 const props = defineProps<AuthOtpStepProps>();
 const emit = defineEmits<AuthOtpStepEmits>();
