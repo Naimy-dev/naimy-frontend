@@ -11,32 +11,7 @@
       class="auth-password-reset-flow__form"
       @submit.prevent="submitPhoneStep"
     >
-      <div class="auth-password-reset-flow__field">
-        <label class="auth-password-reset-flow__label" for="auth-reset-phone">Номер телефона</label>
-
-        <div class="auth-password-reset-flow__input-shell">
-          <span class="auth-password-reset-flow__icon" aria-hidden="true">
-            <UserIcon />
-          </span>
-
-          <input
-            id="auth-reset-phone"
-            v-model="maskedPhone"
-            v-maska="phoneMask"
-            class="auth-password-reset-flow__input"
-            type="tel"
-            inputmode="numeric"
-            autocomplete="tel"
-            placeholder="+375 (XX) XXX-XX-XX"
-            @input="touchedPhone = false"
-            @blur="touchedPhone = true"
-          />
-        </div>
-
-        <p v-if="phoneError" class="auth-password-reset-flow__error" role="alert">
-          {{ phoneError }}
-        </p>
-      </div>
+      <AuthPhoneInput ref="phoneInputRef" v-model="normalizedPhone" />
 
       <button class="auth-password-reset-flow__submit" type="submit" :disabled="loading">
         Отправить код
@@ -148,20 +123,21 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { navigateTo } from 'nuxt/app';
-import { vMaska } from 'maska/vue';
-import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '~/auth/icons';
+import { EyeIcon, EyeOffIcon, LockIcon } from '~/auth/icons';
 import { usePasswordReset } from '~/auth/composables';
 import { getFormattedPhone } from '~/auth/utils';
+import type { AuthPhoneInputRefType } from '~/auth/types';
 import AuthOtpStep from '../AuthOtpStep';
+import AuthPhoneInput from '../AuthPhoneInput';
 import type { AuthPasswordResetFlowEmits } from './AuthPasswordResetFlow.types';
-import { initialResendSeconds, phoneMask } from './AuthPasswordResetFlow.config';
+import { initialResendSeconds } from './AuthPasswordResetFlow.config';
 import { AuthTab } from '~/auth/enums';
 
 const emit = defineEmits<AuthPasswordResetFlowEmits>();
 
-const maskedPhone = ref('');
+const phoneInputRef = ref<AuthPhoneInputRefType>(null);
+const normalizedPhone = ref('');
 const flowPhone = ref('');
-const touchedPhone = ref(false);
 
 const newPassword = ref('');
 const confirmPassword = ref('');
@@ -199,45 +175,7 @@ const subtitle = computed(() => {
   return 'Пароль должен содержать не менее 8 символов';
 });
 
-const phoneDigits = computed(() => maskedPhone.value.replace(/\D/g, ''));
-
-const localPhone = computed(() => {
-  if (!phoneDigits.value) {
-    return '';
-  }
-
-  if (phoneDigits.value.startsWith('375')) {
-    return phoneDigits.value.slice(3);
-  }
-
-  return phoneDigits.value;
-});
-
-const normalizedPhone = computed(() => {
-  if (!localPhone.value) {
-    return '';
-  }
-
-  return `+375${localPhone.value}`;
-});
-
 const formattedFlowPhone = computed(() => getFormattedPhone(flowPhone.value));
-
-const phoneError = computed(() => {
-  if (!touchedPhone.value) {
-    return '';
-  }
-
-  if (!localPhone.value) {
-    return 'Введите номер телефона';
-  }
-
-  if (localPhone.value.length !== 9) {
-    return 'Номер должен содержать 9 цифр после +375';
-  }
-
-  return apiError.value;
-});
 
 const passwordError = computed(() => {
   if (!touchedPassword.value) {
@@ -276,17 +214,17 @@ watch(step, () => {
 });
 
 async function submitPhoneStep() {
-  touchedPhone.value = true;
-  apiError.value = '';
-
-  if (phoneError.value) {
+  if (!phoneInputRef.value?.validate()) {
     return;
   }
+
+  apiError.value = '';
 
   try {
     await resetStart({ phone: normalizedPhone.value });
     flowPhone.value = normalizedPhone.value;
   } catch (error) {
+    // TODO: интегрировать toast-слой проекта.
     apiError.value = error instanceof Error ? error.message : 'Не удалось отправить код';
   }
 }
@@ -339,7 +277,6 @@ async function submitPasswordStep() {
 
 function goToPhoneStep() {
   setStep(1);
-  touchedPhone.value = false;
   apiError.value = '';
 }
 </script>

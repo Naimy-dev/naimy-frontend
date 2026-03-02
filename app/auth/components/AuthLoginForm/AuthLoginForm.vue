@@ -17,34 +17,7 @@
       </p>
 
       <div class="auth-login-form__fields">
-        <div class="auth-login-form__field">
-          <label class="auth-login-form__label" :for="phoneId">Номер телефона</label>
-
-          <div>
-            <div class="auth-login-form__input-shell">
-              <span class="auth-login-form__icon" aria-hidden="true">
-                <UserIcon />
-              </span>
-
-              <input
-                :id="phoneId"
-                v-model="maskedPhone"
-                v-maska:phone.unmasked="phoneMask"
-                class="auth-login-form__input"
-                type="tel"
-                inputmode="numeric"
-                autocomplete="tel"
-                placeholder="+375 (XX) XXX-XX-XX"
-                @input="touched.phone = false"
-                @blur="touched.phone = true"
-              />
-            </div>
-
-            <div v-if="phoneError" class="auth-login-form__error" role="alert">
-              {{ phoneError }}
-            </div>
-          </div>
-        </div>
+        <AuthPhoneInput ref="phoneInputRef" v-model="normalizedPhone" />
 
         <div class="auth-login-form__field">
           <label class="auth-login-form__label" :for="passwordId">Пароль</label>
@@ -106,55 +79,29 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { vMaska } from 'maska/vue';
-import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '~/auth/icons';
+import { EyeIcon, EyeOffIcon, LockIcon } from '~/auth/icons';
 import { useLogin } from '~/auth/composables';
+import type { AuthPhoneInputRefType } from '~/auth/types';
 import AuthPasswordResetFlow from '../AuthPasswordResetFlow';
+import AuthPhoneInput from '../AuthPhoneInput';
 import type { AuthLoginFormEmits } from './AuthLoginForm.types';
 
 const emit = defineEmits<AuthLoginFormEmits>();
 
-const phoneId = 'auth-login-phone';
 const passwordId = 'auth-login-password';
-const phoneMask = '+375 (##) ###-##-##';
 
-const maskedPhone = ref('');
-const phone = ref('');
+const phoneInputRef = ref<AuthPhoneInputRefType>(null);
+const normalizedPhone = ref('');
 const password = ref('');
 const isResetFlowVisible = ref(false);
 const resetSuccessMessage = ref('');
 const passwordVisible = ref(false);
 
 const touched = reactive({
-  phone: false,
   password: false,
 });
 
 const { loading, login } = useLogin();
-
-const normalizedPhone = computed(() => {
-  if (!phone.value) {
-    return '';
-  }
-
-  return `+375${phone.value}`;
-});
-
-const phoneError = computed(() => {
-  if (!touched.phone) {
-    return '';
-  }
-
-  if (!phone.value) {
-    return 'Введите номер телефона';
-  }
-
-  if (phone.value.length !== 9) {
-    return 'Номер должен содержать 9 цифр после +375';
-  }
-
-  return '';
-});
 
 const passwordError = computed(() => {
   if (!touched.password) {
@@ -169,10 +116,14 @@ const passwordError = computed(() => {
 });
 
 async function onSubmit() {
-  touched.phone = true;
+  if (!phoneInputRef.value) {
+    return;
+  }
+
+  const phoneValid = phoneInputRef.value.validate();
   touched.password = true;
 
-  if (phoneError.value || passwordError.value) {
+  if (!phoneValid || passwordError.value) {
     return;
   }
 
@@ -189,7 +140,7 @@ function completeReset() {
   resetSuccessMessage.value = 'Пароль успешно обновлён. Теперь войдите с новым паролем.';
 }
 
-defineExpose({ phone });
+defineExpose({ normalizedPhone });
 </script>
 
 <style scoped lang="scss">

@@ -5,3 +5,4 @@ export { default as AuthLoginForm } from './AuthLoginForm';
 export { default as AuthRegisterForm } from './AuthRegisterForm';
 export { default as AuthOtpStep } from './AuthOtpStep';
 export { default as AuthPasswordResetFlow } from './AuthPasswordResetFlow';
+export { default as AuthPhoneInput } from './AuthPhoneInput';

@@ -73,34 +73,7 @@
           </div>
         </div>
 
-        <div class="auth-register-form__field">
-          <label class="auth-register-form__label" :for="phoneId">Номер телефона</label>
-
-          <div>
-            <div class="auth-register-form__input-shell">
-              <span class="auth-register-form__icon" aria-hidden="true">
-                <UserIcon />
-              </span>
-
-              <input
-                :id="phoneId"
-                v-model="maskedPhone"
-                v-maska="phoneMask"
-                class="auth-register-form__input"
-                type="tel"
-                inputmode="numeric"
-                autocomplete="tel"
-                placeholder="+375 (XX) XXX-XX-XX"
-                @input="onFieldInput(AuthRegisterFormField.PHONE)"
-                @blur="touched.phone = true"
-              />
-            </div>
-
-            <div v-if="phoneError" class="auth-register-form__error" role="alert">
-              {{ phoneError }}
-            </div>
-          </div>
-        </div>
+        <AuthPhoneInput ref="phoneInputRef" v-model="normalizedPhone" />
 
         <div class="auth-register-form__field">
           <label class="auth-register-form__label" :for="passwordId">Пароль</label>
@@ -193,10 +166,11 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { vMaska } from 'maska/vue';
 import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '~/auth/icons';
 import { useRegister } from '~/auth/composables';
+import type { AuthPhoneInputRefType } from '~/auth/types';
 import AuthOtpStep from '../AuthOtpStep';
+import AuthPhoneInput from '../AuthPhoneInput';
 import type { AuthRegisterFormEmits } from './AuthRegisterForm.types';
 import { AuthRegisterFormField } from './AuthRegisterForm.enums';
 
@@ -204,13 +178,13 @@ const emit = defineEmits<AuthRegisterFormEmits>();
 
 const firstNameId = 'auth-register-first-name';
 const lastNameId = 'auth-register-last-name';
-const phoneId = 'auth-register-phone';
 const passwordId = 'auth-register-password';
-const phoneMask = '+375 (##) ###-##-##';
+
+const phoneInputRef = ref<AuthPhoneInputRefType>(null);
+const normalizedPhone = ref('');
 
 const firstName = ref('');
 const lastName = ref('');
-const maskedPhone = ref('');
 const password = ref('');
 const consentAccepted = ref(false);
 const marketingAccepted = ref(false);
@@ -223,34 +197,11 @@ const otpError = ref('');
 const touched = reactive({
   firstName: false,
   lastName: false,
-  phone: false,
   password: false,
   consent: false,
 });
 
 const { registerStart, registerConfirm, resendRegisterOtp, loading, resendLoading } = useRegister();
-
-const phoneDigits = computed(() => maskedPhone.value.replace(/\D/g, ''));
-
-const localPhone = computed(() => {
-  if (!phoneDigits.value) {
-    return '';
-  }
-
-  if (phoneDigits.value.startsWith('375')) {
-    return phoneDigits.value.slice(3);
-  }
-
-  return phoneDigits.value;
-});
-
-const normalizedPhone = computed(() => {
-  if (!localPhone.value) {
-    return '';
-  }
-
-  return `+375${localPhone.value}`;
-});
 
 const firstNameError = computed(() => {
   if (!touched.firstName) {
@@ -271,22 +222,6 @@ const lastNameError = computed(() => {
 
   if (!lastName.value) {
     return 'Введите фамилию';
-  }
-
-  return '';
-});
-
-const phoneError = computed(() => {
-  if (!touched.phone) {
-    return '';
-  }
-
-  if (!localPhone.value) {
-    return 'Введите номер телефона';
-  }
-
-  if (localPhone.value.length !== 9) {
-    return 'Номер должен содержать 9 цифр после +375';
   }
 
   return '';
@@ -325,16 +260,20 @@ function onFieldInput(field: AuthRegisterFormField) {
 }
 
 async function onSubmit() {
+  if (!phoneInputRef.value) {
+    return;
+  }
+
+  const phoneValid = phoneInputRef.value.validate();
   touched.firstName = true;
   touched.lastName = true;
-  touched.phone = true;
   touched.password = true;
   touched.consent = true;
 
   if (
+    !phoneValid ||
     firstNameError.value ||
     lastNameError.value ||
-    phoneError.value ||
     passwordError.value ||
     consentError.value
   ) {
