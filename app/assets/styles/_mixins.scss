@@ -7,10 +7,10 @@
   margin-right: auto;
   padding-left: $pad;
   padding-right: $pad;
+  box-sizing: border-box;
 }
 
 @mixin focus-ring {
   outline: 2px solid rgba($color-focus-ring, 0.6);
   outline-offset: 2px;
 }
-

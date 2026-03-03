@@ -1,0 +1,135 @@
+@use '~/assets/styles/_variables.scss' as *;
+@use '~/assets/styles/_mixins.scss' as *;
+
+.how-it-works {
+  padding: 32px 0;
+  background: $color-bg-muted;
+
+  @media (min-width: $bp-lg) {
+    padding: 80px 0;
+    background: $color-bg;
+  }
+}
+
+.how-it-works__container {
+  @include container();
+}
+
+.how-it-works__header {
+  text-align: center;
+  margin-bottom: 24px;
+
+  @media (min-width: $bp-lg) {
+    margin-bottom: 56px;
+  }
+}
+
+.how-it-works__title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 800;
+
+  @media (min-width: $bp-lg) {
+    font-size: 40px;
+  }
+}
+
+.how-it-works__subtitle {
+  margin: 0;
+  color: $text-color-muted;
+  font-size: 14px;
+
+  @media (min-width: $bp-lg) {
+    font-size: 20px;
+  }
+}
+
+.how-it-works__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+
+  @media (min-width: $bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  @media (min-width: $bp-xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.how-it-works__step {
+  text-align: center;
+  padding: 20px 16px;
+  background: $color-surface;
+}
+
+.how-it-works__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: $color-primary-soft;
+  color: $color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+
+  svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  @media (min-width: $bp-lg) {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 16px;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+.how-it-works__badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: $color-primary;
+  color: $text-color-on-dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  margin: 0 auto 8px;
+
+  @media (min-width: $bp-lg) {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}
+
+.how-it-works__step-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 800;
+  color: $text-color-primary;
+
+  @media (min-width: $bp-lg) {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+.how-it-works__step-text {
+  margin: 0;
+  font-size: 14px;
+  color: $text-color-muted;
+  line-height: 1.45;
+}
