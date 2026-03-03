@@ -197,7 +197,7 @@
                 </NuxtLink> -->
               </nav>
 
-              <div class="mobile-menu__divider" />
+              <!-- <div class="mobile-menu__divider" /> -->
 
               <nav class="mobile-menu__section">
                 <!-- <NuxtLink class="mobile-menu__item" to="/about" @click="close">
