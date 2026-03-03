@@ -65,10 +65,10 @@
                 </NuxtLink>
               </nav>
 
-              <div class="mobile-menu__divider" />
+              <!-- <div class="mobile-menu__divider" /> -->
 
               <nav class="mobile-menu__section">
-                <NuxtLink
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/my/tasks"
                   @click="close"
@@ -77,9 +77,9 @@
                     <ListIcon />
                   </span>
                   <span class="mobile-menu__item-label">Мои задания</span>
-                </NuxtLink>
+                </NuxtLink> -->
 
-                <NuxtLink
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/my/services"
                   @click="close"
@@ -88,9 +88,9 @@
                     <BriefcaseIcon />
                   </span>
                   <span class="mobile-menu__item-label">Мои объявления</span>
-                </NuxtLink>
+                </NuxtLink> -->
 
-                <NuxtLink
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/messages"
                   @click="close"
@@ -102,9 +102,9 @@
                     >Сообщения</span
                   >
                   <span class="mobile-menu__badge" aria-label="3 новых">3</span>
-                </NuxtLink>
+                </NuxtLink> -->
 
-                <NuxtLink
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/notifications"
                   @click="close"
@@ -116,9 +116,9 @@
                     >Уведомления</span
                   >
                   <span class="mobile-menu__badge" aria-label="5 новых">5</span>
-                </NuxtLink>
+                </NuxtLink> -->
 
-                <NuxtLink
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/favorites"
                   @click="close"
@@ -127,29 +127,29 @@
                     <HeartIcon />
                   </span>
                   <span class="mobile-menu__item-label">Избранное</span>
-                </NuxtLink>
+                </NuxtLink> -->
               </nav>
 
-              <div class="mobile-menu__divider" />
+              <!-- <div class="mobile-menu__divider" /> -->
 
               <nav class="mobile-menu__section">
-                <NuxtLink class="mobile-menu__item" to="/settings" @click="close">
+                <!-- <NuxtLink class="mobile-menu__item" to="/settings" @click="close">
                   <span class="mobile-menu__item-icon">
                     <SettingsIcon />
                   </span>
                   <span class="mobile-menu__item-label">Настройки</span>
-                </NuxtLink>
+                </NuxtLink> -->
               </nav>
 
               <div class="mobile-menu__divider" />
 
               <nav class="mobile-menu__section">
-                <NuxtLink class="mobile-menu__item" to="/help" @click="close">
+                <!-- <NuxtLink class="mobile-menu__item" to="/help" @click="close">
                   <span class="mobile-menu__item-icon">
                     <QuestionIcon />
                   </span>
                   <span class="mobile-menu__item-label">Помощь</span>
-                </NuxtLink>
+                </NuxtLink> -->
               </nav>
             </template>
 
@@ -165,7 +165,7 @@
                   </span>
                   <span class="mobile-menu__item-label">Главная</span>
                 </NuxtLink>
-                <NuxtLink
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/tasks"
                   @click="close"
@@ -174,8 +174,8 @@
                     <ListIcon />
                   </span>
                   <span class="mobile-menu__item-label">Задания</span>
-                </NuxtLink>
-                <NuxtLink
+                </NuxtLink> -->
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/ads"
                   @click="close"
@@ -184,8 +184,8 @@
                     <BriefcaseIcon />
                   </span>
                   <span class="mobile-menu__item-label">Объявления</span>
-                </NuxtLink>
-                <NuxtLink
+                </NuxtLink> -->
+                <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/categories"
                   @click="close"
@@ -194,30 +194,30 @@
                     <TableCellsIcon />
                   </span>
                   <span class="mobile-menu__item-label">Категории</span>
-                </NuxtLink>
+                </NuxtLink> -->
               </nav>
 
               <div class="mobile-menu__divider" />
 
               <nav class="mobile-menu__section">
-                <NuxtLink class="mobile-menu__item" to="/about" @click="close">
+                <!-- <NuxtLink class="mobile-menu__item" to="/about" @click="close">
                   <span class="mobile-menu__item-icon">
                     <InfoIcon />
                   </span>
                   <span class="mobile-menu__item-label">О сервисе</span>
-                </NuxtLink>
-                <NuxtLink class="mobile-menu__item" to="/help" @click="close">
+                </NuxtLink> -->
+                <!-- <NuxtLink class="mobile-menu__item" to="/help" @click="close">
                   <span class="mobile-menu__item-icon">
                     <QuestionIcon />
                   </span>
                   <span class="mobile-menu__item-label">Помощь</span>
-                </NuxtLink>
-                <NuxtLink class="mobile-menu__item" to="/contacts" @click="close">
+                </NuxtLink> -->
+                <!-- <NuxtLink class="mobile-menu__item" to="/contacts" @click="close">
                   <span class="mobile-menu__item-icon">
                     <PhoneIcon />
                   </span>
                   <span class="mobile-menu__item-label">Контакты</span>
-                </NuxtLink>
+                </NuxtLink> -->
               </nav>
 
               <div class="mobile-menu__divider" />
@@ -226,8 +226,6 @@
                 <div class="mobile-menu__settings-title">Язык</div>
                 <select v-model="language" class="mobile-menu__select" aria-label="Язык">
                   <option>Русский</option>
-                  <option>English</option>
-                  <option>Қазақша</option>
                 </select>
               </div>
             </template>
