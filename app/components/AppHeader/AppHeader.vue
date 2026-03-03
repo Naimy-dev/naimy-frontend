@@ -65,7 +65,7 @@
         </div>
 
         <NuxtLink
-          v-else
+          v-else-if="isAuthResolved"
           class="app-header__btn app-header__btn--login"
           :to="`/auth?tab=${AuthTab.LOGIN}`"
           >Войти</NuxtLink
@@ -84,7 +84,7 @@ import { AuthTab, useAuthStore } from '~/auth';
 import { BellIcon, BurgerIcon, HeartIcon, MessageIcon } from '~/icons';
 import AppMobileMenu from '~/components/AppMobileMenu';
 
-const { isAuthenticated, user, userInitial } = storeToRefs(useAuthStore());
+const { isAuthenticated, isAuthResolved, user, userInitial } = storeToRefs(useAuthStore());
 
 const menuOpen = ref(false);
 
