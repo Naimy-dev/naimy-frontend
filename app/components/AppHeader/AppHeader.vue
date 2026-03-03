@@ -35,25 +35,25 @@
           <NuxtLink class="app-header__logo" to="/">Naimy</NuxtLink>
 
           <nav class="app-header__nav" aria-label="Основная навигация">
-            <NuxtLink class="app-header__nav-link" to="/tasks">Задания</NuxtLink>
-            <NuxtLink class="app-header__nav-link" to="/ads">Объявления</NuxtLink>
-            <NuxtLink class="app-header__nav-link" to="/categories">Категории</NuxtLink>
-            <NuxtLink class="app-header__nav-link" to="/how-it-works">Как это работает</NuxtLink>
+            <!-- <NuxtLink class="app-header__nav-link" to="/tasks">Задания</NuxtLink> -->
+            <!-- <NuxtLink class="app-header__nav-link" to="/ads">Объявления</NuxtLink> -->
+            <!-- <NuxtLink class="app-header__nav-link" to="/categories">Категории</NuxtLink> -->
+            <!-- <NuxtLink class="app-header__nav-link" to="/how-it-works">Как это работает</NuxtLink> -->
           </nav>
         </div>
 
         <div v-if="isAuthenticated" class="app-header__desktop-right">
-          <button class="app-header__icon-btn" type="button" aria-label="Уведомления">
+          <!-- <button class="app-header__icon-btn" type="button" aria-label="Уведомления">
             <BellIcon />
-          </button>
-          <button class="app-header__icon-btn" type="button" aria-label="Избранное">
+          </button> -->
+          <!-- <button class="app-header__icon-btn" type="button" aria-label="Избранное">
             <HeartIcon />
-          </button>
-          <button class="app-header__icon-btn" type="button" aria-label="Сообщения">
+          </button> -->
+          <!-- <button class="app-header__icon-btn" type="button" aria-label="Сообщения">
             <MessageIcon />
-          </button>
+          </button> -->
 
-          <div class="app-header__divider" aria-hidden="true" />
+          <!-- <div class="app-header__divider" aria-hidden="true" /> -->
 
           <button class="app-header__profile" type="button" aria-label="Профиль">
             <span class="app-header__avatar">
