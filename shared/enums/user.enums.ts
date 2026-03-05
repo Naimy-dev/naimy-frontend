@@ -15,3 +15,13 @@ export enum UserAccountState {
   BLOCKED = 'BLOCKED',
   ARCHIVED = 'ARCHIVED',
 }
+
+export enum Language {
+  RU = 'RU',
+  BY = 'BY',
+}
+
+export enum UserContactVisibility {
+  HIDDEN = 'HIDDEN',
+  REGISTERED_ONLY = 'REGISTERED_ONLY',
+}

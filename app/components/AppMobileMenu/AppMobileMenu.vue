@@ -68,6 +68,17 @@
               <!-- <div class="mobile-menu__divider" /> -->
 
               <nav class="mobile-menu__section">
+                <NuxtLink
+                  class="mobile-menu__item mobile-menu__item--primary"
+                  to="/profile"
+                  @click="close"
+                >
+                  <span class="mobile-menu__item-icon mobile-menu__item-icon--primary">
+                    <UserIcon />
+                  </span>
+                  <span class="mobile-menu__item-label">Профиль</span>
+                </NuxtLink>
+
                 <!-- <NuxtLink
                   class="mobile-menu__item mobile-menu__item--primary"
                   to="/my/tasks"
@@ -268,6 +279,7 @@ import {
   BellIcon,
   HeartIcon,
   SettingsIcon,
+  UserIcon,
 } from '~/icons';
 
 const isOpen = defineModel<boolean>();

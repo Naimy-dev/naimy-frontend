@@ -1,0 +1,45 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.coming-soon-stub {
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  background: $color-surface;
+  padding: 24px 20px;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.coming-soon-stub__illustration {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba($color-primary, 0.12);
+  color: $color-primary;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+}
+
+.coming-soon-stub__spark {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.coming-soon-stub__title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.coming-soon-stub__text {
+  margin: 0;
+  font-size: 15px;
+  color: $text-color-muted;
+}
+
+.coming-soon-stub__hint {
+  margin: 0;
+  font-size: 14px;
+  color: $text-color-subtle;
+}
