@@ -1,0 +1,76 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.user-profile-rating {
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  background: $color-surface;
+  padding: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.user-profile-rating__title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.user-profile-rating__list {
+  display: grid;
+  gap: 12px;
+}
+
+.user-profile-rating__item {
+  display: grid;
+  gap: 4px;
+}
+
+.user-profile-rating__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: $text-color-muted;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.user-profile-rating__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: $text-color-primary;
+}
+
+.user-profile-rating__stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: $color-warning;
+}
+
+.user-profile-rating__track {
+  height: 8px;
+  border-radius: $radius-2xl;
+  background: $color-bg-muted;
+  overflow: hidden;
+}
+
+.user-profile-rating__fill {
+  height: 100%;
+  border-radius: $radius-2xl;
+  background: $color-warning;
+}
+
+.user-profile-rating__item--politeness .user-profile-rating__fill {
+  background: $color-success;
+}
+
+.user-profile-rating__item--timeliness .user-profile-rating__fill {
+  background: $color-primary;
+}
+
+.user-profile-rating__item--quality .user-profile-rating__fill {
+  background: $color-secondary;
+}

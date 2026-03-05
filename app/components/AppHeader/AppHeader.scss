@@ -104,6 +104,7 @@
   max-width: $container-max;
   margin: 0 auto;
   padding: 0 $container-pad-desktop;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;

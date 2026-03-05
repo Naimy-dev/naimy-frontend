@@ -1,0 +1,27 @@
+@use '~/assets/styles/_variables.scss' as *;
+
+.user-profile-about {
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  background: $color-surface;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.user-profile-about__title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.user-profile-about__text {
+  margin: 0;
+  color: $text-color-muted;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.user-profile-about__empty-text {
+  margin: 0;
+  color: $text-color-subtle;
+}

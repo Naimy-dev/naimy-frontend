@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { vMaska } from 'maska/vue';
-import { UserIcon } from '~/auth/icons';
+import { UserIcon } from '~/icons';
 
 const PHONE_MASK = '+375 (##) ###-##-##';
 const inputId = 'auth-phone-input';

@@ -165,7 +165,8 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import { EyeIcon, EyeOffIcon, LockIcon, UserIcon } from '~/auth/icons';
+import { UserIcon } from '~/icons';
+import { EyeIcon, EyeOffIcon, LockIcon } from '~/auth/icons';
 import { useRegister } from '~/auth/composables';
 import type { AuthPhoneInputRefType } from '~/auth/types';
 import AuthOtpStep from '../AuthOtpStep';

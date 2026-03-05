@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
+import { getInitials } from '#shared/utils';
 import type { UserDto } from '#shared/types';
 import { AuthStatus } from '~/auth/enums';
 
@@ -17,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     const { firstName, lastName } = user.value;
-    return `${firstName.slice(0, 1).toUpperCase()} ${lastName.slice(0, 1).toUpperCase()}`;
+    return getInitials(firstName, lastName);
   });
 
   function setAccessToken(token: string) {

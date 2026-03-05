@@ -15,17 +15,17 @@
       <NuxtLink class="app-header__logo app-header__mobile-center" to="/">Naimy</NuxtLink>
 
       <div class="app-header__mobile-right">
-        <button
+        <NuxtLink
           v-if="isAuthenticated"
           class="app-header__avatar-btn app-header__mobile-right"
-          type="button"
+          to="/profile"
           aria-label="Профиль"
         >
           <span class="app-header__avatar">
             <img v-if="user?.photoUrl" :src="user.photoUrl" alt="" />
             <span v-else aria-hidden="true">{{ userInitial }}</span>
           </span>
-        </button>
+        </NuxtLink>
       </div>
     </div>
 
@@ -55,13 +55,13 @@
 
           <!-- <div class="app-header__divider" aria-hidden="true" /> -->
 
-          <button class="app-header__profile" type="button" aria-label="Профиль">
+          <NuxtLink class="app-header__profile" to="/profile" aria-label="Профиль">
             <span class="app-header__avatar">
               <img v-if="user?.photoUrl" :src="user.photoUrl" alt="" />
               <span v-else aria-hidden="true">{{ userInitial }}</span>
             </span>
             <span class="app-header__profile-name">{{ userShortName }}</span>
-          </button>
+          </NuxtLink>
         </div>
 
         <NuxtLink
