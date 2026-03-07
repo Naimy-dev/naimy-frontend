@@ -34,7 +34,7 @@
           disabled
           aria-label="Написать"
         >
-          <EnvelopIcon /> Связаться
+          <EnvelopIcon /> Написать
         </button>
 
         <button
@@ -89,19 +89,17 @@ async function share() {
     return;
   }
 
-  const url = window.location.href;
-  if (!url) {
-    return;
-  }
-
-  const title = fullName.value;
+  const currentUrl = new URL(window.location.href);
+  const url = props.isOwner ? `${currentUrl.origin}/user/${props.profile.id}` : currentUrl.href;
 
   if (navigator.share) {
     try {
-      await navigator.share({ title, url });
+      await navigator.share({ title: fullName.value, url });
       return;
     } catch {
-      return;
+      toast.error({
+        title: 'Не удалось поделиться профилем пользователя',
+      });
     }
   }
 

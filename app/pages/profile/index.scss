@@ -46,7 +46,7 @@
   @media (max-width: $bp-lg) {
     gap: 16px;
     grid-column: auto;
-    padding: 0 16px;
+    padding: 16px 16px 0;
     margin-bottom: 0;
   }
 }
