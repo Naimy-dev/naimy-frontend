@@ -90,7 +90,7 @@ async function share() {
   }
 
   const currentUrl = new URL(window.location.href);
-  const url = props.isOwner ? `${currentUrl.origin}/user/${props.profile.id}` : currentUrl.href;
+  const url = props.isOwner ? `${currentUrl.origin}/users/${props.profile.id}` : currentUrl.href;
 
   if (navigator.share) {
     try {
